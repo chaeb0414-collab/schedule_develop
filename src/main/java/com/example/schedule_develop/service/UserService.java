@@ -16,9 +16,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserResponse create(CreateUserRequest request){
+        if(request.getPassword().length() < 8){
+            throw new IllegalArgumentException("비밀번호는 8글자 이상이어야 합니다.");
+        }
         User user = new User(
-        request.getName(),
-        request.getEmail()
+                request.getName(),
+                request.getEmail(),
+                request.getPassword()
         );
         User savedUser = userRepository.save(user);
         return new UserResponse(savedUser);
@@ -45,7 +49,8 @@ public class UserService {
 
         user.update(
                 request.getName(),
-                request.getEmail()
+                request.getEmail(),
+                request.getPassword()
         );
         return new UserResponse(user);
     }
