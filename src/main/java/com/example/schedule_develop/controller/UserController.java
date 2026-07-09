@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,9 +34,12 @@ public class UserController {
         return userService.update(id, request);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<Map<String,String>> delete(
+            @PathVariable Long id){
         userService.deleteById(id);
 
-        return ResponseEntity.ok("삭제되었습니다.");
+        return ResponseEntity.ok(
+                Map.of("message","삭제되었습니다.")
+                );
     }
 }
