@@ -21,8 +21,8 @@ public class ScheduleController {
             @RequestBody CreateScheduleRequest request,
             HttpSession session
     ){
-        getLoginUserId(session);
-        return scheduleService.create(request);
+        Long loginUserId = getLoginUserId(session);
+        return scheduleService.create(request, loginUserId);
     }
     @GetMapping
     public List<ScheduleResponse> findAll(){
@@ -38,16 +38,16 @@ public class ScheduleController {
             @RequestBody UpdateScheduleRequest request,
             HttpSession session
     ){
-        getLoginUserId(session);
-        return scheduleService.update(id, request);
+        Long loginUserId = getLoginUserId(session);
+        return scheduleService.update(id, request, loginUserId);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String,String>> delete(
             @PathVariable Long id,
             HttpSession session
             ){
-        getLoginUserId(session);
-        scheduleService.delete(id);
+        Long loginUserId = getLoginUserId(session);
+        scheduleService.delete(id, loginUserId);
 
         return ResponseEntity.ok(
                 Map.of("message","삭제되었습니다.")

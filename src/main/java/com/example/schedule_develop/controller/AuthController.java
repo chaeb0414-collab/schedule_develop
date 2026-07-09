@@ -21,7 +21,7 @@ public class AuthController {
             HttpSession session
             ){
         User user = authService.login(request);
-        session.setAttribute("LOGIN_user", user.getId());
+        session.setAttribute("LOGIN_USER", user.getId());
         return ResponseEntity.ok(
                 Map.of("message","로그인 성공")
         );
