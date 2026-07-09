@@ -3,8 +3,8 @@ package com.example.schedule_develop.service;
 import com.example.schedule_develop.dto.CreateScheduleRequest;
 import com.example.schedule_develop.dto.ScheduleResponse;
 import com.example.schedule_develop.dto.UpdateScheduleRequest;
-import com.example.schedule_develop.entity.Schedule;
-import com.example.schedule_develop.repository.ScheduleRepository;
+import com.example.schedule_develop.entity.*;
+import com.example.schedule_develop.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +16,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     public ScheduleResponse create(CreateScheduleRequest request){
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(()-> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
         Schedule schedule = new Schedule(
-                request.getName(),
                 request.getTitle(),
-                request.getContent()
+                request.getContent(),
+                user
         );
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
